@@ -1,15 +1,15 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { FadeIn } from '../components/Animations';
 
 function LegalLayout({ title, lastUpdated, children }: { title: string; lastUpdated: string; children: React.ReactNode }) {
   return (
     <div>
       <section className="py-16 md:py-20 bg-[#F5F0E8]/50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <FadeIn>
             <h1 className="font-serif text-4xl text-[#2D2926] mb-2">{title}</h1>
             <p className="text-sm text-[#2D2926]/40">Last updated: {lastUpdated}</p>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
       <section className="py-12 md:py-16 bg-white">

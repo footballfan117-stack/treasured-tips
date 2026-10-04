@@ -1,26 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Instagram } from 'lucide-react';
 import { businessInfo } from '../data/config';
+import { FadeIn } from '../components/Animations';
 
 export default function Contact() {
   return (
     <div>
       <section className="py-16 md:py-24 bg-[#F5F0E8]/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <FadeIn>
             <p className="text-sm uppercase tracking-[0.2em] text-[#6B5B4E] mb-3 font-medium">Contact</p>
             <h1 className="font-serif text-4xl md:text-5xl text-[#2D2926] mb-4">Get in touch</h1>
             <p className="text-[#2D2926]/60 max-w-2xl mx-auto leading-relaxed">Have a question about a service, need advice, or ready to book? Here's how to reach Amber.</p>
-          </motion.div>
+          </FadeIn>
         </div>
       </section>
 
       <section className="py-16 md:py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div>
+            <FadeIn>
               <h2 className="font-serif text-2xl text-[#2D2926] mb-6">Contact Amber</h2>
               <div className="space-y-6">
                 <div className="flex items-start gap-4">
@@ -47,9 +47,9 @@ export default function Contact() {
                   <div><h4 className="text-sm font-medium text-[#2D2926]">Social</h4><a href="#" className="text-sm text-[#2D2926]/60 hover:text-[#6B5B4E]">Follow on Instagram</a></div>
                 </div>
               </div>
-            </div>
+            </FadeIn>
 
-            <div>
+            <FadeIn delay={0.2}>
               <h2 className="font-serif text-2xl text-[#2D2926] mb-6">What would you like to do?</h2>
               <div className="space-y-4">
                 <Link to="/book" className="block p-6 border border-[#E8DDD3]/50 rounded-sm hover:border-[#D4C8BC]/50 transition-all group">
@@ -76,7 +76,7 @@ export default function Contact() {
                   <p><strong className="text-[#2D2926]">What if I'm not sure what I want?</strong> No problem — Amber will help you decide at your appointment.</p>
                 </div>
               </div>
-            </div>
+            </FadeIn>
           </div>
         </div>
       </section>
