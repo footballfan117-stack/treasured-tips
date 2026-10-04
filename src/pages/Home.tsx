@@ -71,7 +71,7 @@ export default function Home() {
               { icon: <Sparkles size={24} />, title: "Nail Health First", desc: "Healthy nails are the priority. Every decision is made with the long-term condition of your nails in mind." },
               { icon: <User size={24} />, title: "One-to-One Experience", desc: "Your full attention, your full appointment. No rushing, no compromises — just you and Amber." },
             ].map((item, i) => (
-              <div key={i} className="bg-white p-8 rounded-sm border border-[#E8DDD3]/50 hover:border-[#D4C8BC]/50 transition-all hover:shadow-sm">
+              <div key={i} className="bg-white p-8 rounded-sm border border-[#E8DDD3]/50 hover:border-[#D4C8BC]/50 transition-all hover:shadow-sm hover-lift">
                 <div className="w-12 h-12 rounded-full bg-[#F5F0E8] flex items-center justify-center text-[#6B5B4E] mb-4">{item.icon}</div>
                 <h3 className="font-serif text-xl text-[#2D2926] mb-2">{item.title}</h3>
                 <p className="text-sm text-[#2D2926]/60 leading-relaxed">{item.desc}</p>
@@ -90,7 +90,7 @@ export default function Home() {
           </FadeIn>
           <FadeInStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {featuredReviews.map((review) => (
-              <div key={review.id} className="bg-[#FDFBF7] p-6 md:p-8 rounded-sm border border-[#E8DDD3]/30">
+              <div key={review.id} className="bg-[#FDFBF7] p-6 md:p-8 rounded-sm border border-[#E8DDD3]/30 hover-lift">
                 <div className="flex gap-0.5 mb-4">{[...Array(review.rating)].map((_, i) => (<span key={i} className="text-[#C4A87C] text-sm">★</span>))}</div>
                 <p className="text-[#2D2926]/80 leading-relaxed mb-4 italic font-serif text-base">"{review.text}"</p>
                 <p className="text-xs text-[#2D2926]/50 uppercase tracking-wider">{review.author}</p>
@@ -114,7 +114,7 @@ export default function Home() {
               "https://images.unsplash.com/photo-1632345031435-8727f6897d53?w=400&h=400&fit=crop",
               "https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=400&h=400&fit=crop",
             ].map((src, i) => (
-              <div key={i} className="aspect-square rounded-sm overflow-hidden hover:opacity-90 transition-opacity">
+              <div key={i} className="aspect-square rounded-sm overflow-hidden img-zoom">
                 <img src={src} alt={`Nail design ${i + 1}`} className="w-full h-full object-cover" />
               </div>
             ))}
@@ -134,7 +134,7 @@ export default function Home() {
           </FadeIn>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {featuredServices.map((service) => (
-              <div key={service.id} className="border border-[#E8DDD3]/50 p-8 rounded-sm hover:border-[#D4C8BC]/50 transition-all">
+              <div key={service.id} className="border border-[#E8DDD3]/50 p-8 rounded-sm hover:border-[#D4C8BC]/50 transition-all hover-lift">
                 <span className="text-xs uppercase tracking-wider text-[#6B5B4E]/70 font-medium">{service.category}</span>
                 <h3 className="font-serif text-xl text-[#2D2926] mt-2 mb-3">{service.name}</h3>
                 <p className="text-sm text-[#2D2926]/60 leading-relaxed mb-4 line-clamp-3">{service.description}</p>

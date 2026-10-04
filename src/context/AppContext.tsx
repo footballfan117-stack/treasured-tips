@@ -22,6 +22,7 @@ export interface CustomerAccount {
   email: string;
   name: string;
   phone: string;
+  password?: string;
 }
 
 interface AppState {

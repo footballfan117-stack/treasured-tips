@@ -4,6 +4,7 @@ import { Calendar, Clock, Users, Settings, Plus, X, Check, ChevronLeft, ChevronR
 import { useAppContext, Appointment } from '../context/AppContext';
 import { ADMIN_PASSWORD } from '../data/config';
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, startOfWeek, endOfWeek, isToday, getDay, addMonths, subMonths } from 'date-fns';
+import { ConfirmDialog } from '../components/Animations';
 
 type AdminView = 'login' | 'dashboard' | 'calendar' | 'appointments' | 'services' | 'availability';
 type CalendarView = 'day' | 'week' | 'month';
@@ -15,6 +16,7 @@ export default function Admin() {
   const [loginError, setLoginError] = useState('');
   const [calendarView, setCalendarView] = useState<CalendarView>('month');
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [cancelTarget, setCancelTarget] = useState<string | null>(null);
 
   const handleLogin = () => {
     if (password === ADMIN_PASSWORD) { dispatch({ type: 'ADMIN_LOGIN' }); setView('dashboard'); setLoginError(''); }
@@ -234,8 +236,8 @@ export default function Admin() {
                           <td className="p-3">
                             <div className="flex items-center gap-1">
                               {appt.status === 'confirmed' && (<>
-                                <button onClick={() => dispatch({ type: 'COMPLETE_APPOINTMENT', payload: appt.id })} className="p-1 hover:bg-green-50 rounded"><Check size={14} className="text-green-600" /></button>
-                                <button onClick={() => dispatch({ type: 'CANCEL_APPOINTMENT', payload: appt.id })} className="p-1 hover:bg-red-50 rounded"><X size={14} className="text-red-500" /></button>
+                                <button onClick={() => dispatch({ type: 'COMPLETE_APPOINTMENT', payload: appt.id })} className="p-1 hover:bg-green-50 rounded" title="Mark as completed"><Check size={14} className="text-green-600" /></button>
+                                <button onClick={() => setCancelTarget(appt.id)} className="p-1 hover:bg-red-50 rounded" title="Cancel appointment"><X size={14} className="text-red-500" /></button>
                               </>)}
                             </div>
                           </td>
@@ -327,6 +329,22 @@ export default function Admin() {
           </div>
         )}
       </div>
+
+      <ConfirmDialog
+        isOpen={cancelTarget !== null}
+        title="Cancel appointment?"
+        message="Are you sure you want to cancel this appointment? This action cannot be undone."
+        confirmLabel="Yes, cancel appointment"
+        cancelLabel="Keep appointment"
+        onConfirm={() => {
+          if (cancelTarget) {
+            dispatch({ type: 'CANCEL_APPOINTMENT', payload: cancelTarget });
+            setCancelTarget(null);
+          }
+        }}
+        onCancel={() => setCancelTarget(null)}
+        variant="danger"
+      />
     </div>
   );
 }

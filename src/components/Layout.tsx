@@ -42,7 +42,7 @@ export default function Layout({ children }: LayoutProps) {
               ))}
             </nav>
             <div className="flex items-center gap-4">
-              <Link to="/book" className="hidden md:inline-block bg-[#2D2926] text-[#FDFBF7] px-5 py-2.5 text-xs font-medium uppercase tracking-wider hover:bg-[#6B5B4E] transition-colors">Book Now</Link>
+              <Link to="/book" className="hidden md:inline-block bg-[#2D2926] text-[#FDFBF7] px-5 py-2.5 text-xs font-medium uppercase tracking-wider hover:bg-[#6B5B4E] transition-colors btn-press">Book Now</Link>
               <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden p-2 text-[#2D2926]" aria-label="Toggle menu">
                 {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>

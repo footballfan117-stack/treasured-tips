@@ -34,7 +34,7 @@ export default function Gallery() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-4">
             {filteredImages.map((image, index) => (
-              <div key={image.id} className="mb-4 break-inside-avoid cursor-pointer group" onClick={() => setLightboxIndex(index)}>
+              <div key={image.id} className="mb-4 break-inside-avoid cursor-pointer group img-zoom" onClick={() => setLightboxIndex(index)}>
                 <div className={`relative overflow-hidden rounded-sm ${index % 4 === 0 ? 'aspect-[3/4]' : index % 4 === 1 ? 'aspect-square' : index % 4 === 2 ? 'aspect-[4/5]' : 'aspect-[3/4]'} bg-[#F5F0E8]`}>
                   {image.src ? (
                     <img src={image.src} alt={image.alt} className="w-full h-full object-cover" />

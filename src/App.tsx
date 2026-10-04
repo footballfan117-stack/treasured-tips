@@ -2,6 +2,7 @@ import React from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
 import Layout from './components/Layout';
+import { PageTransition } from './components/Animations';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
@@ -19,19 +20,21 @@ function LayoutWrapper() {
   if (isAdmin) return <Admin />;
   return (
     <Layout>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/book" element={<BookNow />} />
-        <Route path="/nail-care" element={<NailCare />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/privacy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<TermsConditions />} />
-        <Route path="/cookies" element={<CookiePolicy />} />
-      </Routes>
+      <PageTransition>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/book" element={<BookNow />} />
+          <Route path="/nail-care" element={<NailCare />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsConditions />} />
+          <Route path="/cookies" element={<CookiePolicy />} />
+        </Routes>
+      </PageTransition>
     </Layout>
   );
 }

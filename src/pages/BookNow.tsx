@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Clock, ChevronLeft, ChevronRight, Check, User, Mail, Phone, FileText, Palette } from 'lucide-react';
+import { Clock, ChevronLeft, ChevronRight, Check, User, Mail, Phone, FileText, Palette, Lock } from 'lucide-react';
 import { useAppContext, Appointment } from '../context/AppContext';
 import { services } from '../data/config';
 import { format, addDays, startOfMonth, endOfMonth, eachDayOfInterval, isBefore, isToday, getDay, startOfWeek, endOfWeek } from 'date-fns';
@@ -21,6 +21,8 @@ export default function BookNow() {
   const [designNotes, setDesignNotes] = useState('');
   const [appointmentNotes, setAppointmentNotes] = useState('');
   const [bookingRef, setBookingRef] = useState('');
+  const [accountPassword, setAccountPassword] = useState('');
+  const [createAccount, setCreateAccount] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const service = services.find(s => s.id === selectedService);
@@ -30,6 +32,10 @@ export default function BookNow() {
       setCustomerName(state.customerAccount.name || '');
       setCustomerEmail(state.customerAccount.email || '');
       setCustomerPhone(state.customerAccount.phone || '');
+      if (state.customerAccount.password) {
+        setAccountPassword(state.customerAccount.password);
+        setCreateAccount(true);
+      }
     }
   }, []);
 
@@ -64,6 +70,8 @@ export default function BookNow() {
     if (!customerEmail.trim()) newErrors.email = 'Please enter your email';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) newErrors.email = 'Please enter a valid email';
     if (!customerPhone.trim()) newErrors.phone = 'Please enter your phone number';
+    if (createAccount && !accountPassword.trim()) newErrors.password = 'Please choose a password';
+    else if (createAccount && accountPassword.trim().length < 4) newErrors.password = 'Password must be at least 4 characters';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -80,7 +88,15 @@ export default function BookNow() {
       status: 'confirmed', createdAt: new Date().toISOString(), bookingRef: ref,
     };
     dispatch({ type: 'ADD_APPOINTMENT', payload: appointment });
-    dispatch({ type: 'SET_CUSTOMER', payload: { email: customerEmail, name: customerName, phone: customerPhone } });
+    dispatch({
+      type: 'SET_CUSTOMER',
+      payload: {
+        email: customerEmail,
+        name: customerName,
+        phone: customerPhone,
+        password: createAccount ? accountPassword : undefined,
+      },
+    });
     setStep('confirmation');
   };
 
@@ -112,6 +128,7 @@ export default function BookNow() {
       )}
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
+        <div key={step} className="animate-step-in">
         {step === 'service' && (
           <div>
             <h2 className="font-serif text-2xl text-[#2D2926] mb-6">Choose a service</h2>
@@ -226,6 +243,39 @@ export default function BookNow() {
                 <label className="flex items-center gap-2 text-sm font-medium text-[#2D2926] mb-2"><FileText size={14} /> Appointment Notes <span className="text-[#2D2926]/40 font-normal">(optional)</span></label>
                 <textarea value={appointmentNotes} onChange={(e) => setAppointmentNotes(e.target.value)} className="w-full px-4 py-3 border border-[#D4C8BC] bg-white text-[#2D2926] focus:border-[#6B5B4E] focus:outline-none focus:ring-2 focus:ring-[#6B5B4E]/10 min-h-[80px] resize-y" placeholder="Anything else Amber should know." />
               </div>
+
+              {/* Account creation */}
+              <div className="border-t border-[#E8DDD3]/30 pt-5">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={createAccount}
+                    onChange={(e) => setCreateAccount(e.target.checked)}
+                    className="mt-0.5 w-4 h-4 accent-[#2D2926]"
+                  />
+                  <div>
+                    <span className="text-sm font-medium text-[#2D2926]">Create an account to track my appointments</span>
+                    <p className="text-xs text-[#2D2926]/50 mt-0.5">Set a password to view, manage, and cancel your appointments anytime.</p>
+                  </div>
+                </label>
+
+                {createAccount && (
+                  <div className="mt-4">
+                    <label className="flex items-center gap-2 text-sm font-medium text-[#2D2926] mb-2">
+                      <Lock size={14} /> Choose a Password
+                    </label>
+                    <input
+                      type="password"
+                      value={accountPassword}
+                      onChange={(e) => setAccountPassword(e.target.value)}
+                      className="w-full px-4 py-3 border border-[#D4C8BC] bg-white text-[#2D2926] focus:border-[#6B5B4E] focus:outline-none focus:ring-2 focus:ring-[#6B5B4E]/10"
+                      placeholder="At least 4 characters"
+                    />
+                    {errors.password && <p className="text-xs text-red-500 mt-1">{errors.password}</p>}
+                    <p className="text-xs text-[#2D2926]/40 mt-2">Use this email and password to sign in to your appointments later.</p>
+                  </div>
+                )}
+              </div>
             </div>
             <div className="mt-8 flex justify-between">
               <button onClick={() => setStep('time')} className="border border-[#2D2926] text-[#2D2926] px-6 py-3 text-sm font-medium uppercase tracking-wider hover:bg-[#2D2926] hover:text-[#FDFBF7] transition-colors">Back</button>
@@ -314,6 +364,7 @@ export default function BookNow() {
             </div>
           </div>
         )}
+        </div>
       </div>
     </div>
   );
